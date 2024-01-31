@@ -41,6 +41,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	Input->BindAction(InputMove, ETriggerEvent::Triggered, this, &ATank::Move);
 	Input->BindAction(InputTurn, ETriggerEvent::Triggered, this, &ATank::Turn);
+	Input->BindAction(InputFire, ETriggerEvent::Started, this, &ATank::Fire);
 }
 
 void ATank::Tick(float const DeltaTime)

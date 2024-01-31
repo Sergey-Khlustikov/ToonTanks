@@ -27,6 +27,9 @@ public:
  
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
 	UInputAction* InputTurn;
+ 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
+	UInputAction* InputFire;
 
 protected:
 	virtual void BeginPlay() override;

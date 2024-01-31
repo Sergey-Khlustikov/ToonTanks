@@ -28,6 +28,13 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta=(AllowPrivateAccess="true"))
 	USceneComponent* ProjectileSpawnPoint;
 
+	UPROPERTY(EditDefaultsOnly, Category="Combat")
+	TSubclassOf<class AProjectile> ProjectileClass;
+
 protected:
+	virtual void BeginPlay() override;
+	
 	void RotateTurret(FVector LookAtTarget);
+
+	void Fire();
 };
