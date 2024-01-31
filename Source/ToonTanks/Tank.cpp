@@ -5,6 +5,10 @@
 
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "InputMappingContext.h"
+#include "EnhancedInputSubsystems.h"
+#include "EnhancedInputComponent.h"
 
 ATank::ATank()
 {
@@ -15,4 +19,48 @@ ATank::ATank()
 
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera Component"));
 	Camera->SetupAttachment(SpringArm);
+}
+
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
+	
+}
+
+// Called to bind functionality to input
+void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	PlayerControllerRef = Cast<APlayerController>(GetController());
+	
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(
+		PlayerControllerRef->GetLocalPlayer()
+	);
+	Subsystem->ClearAllMappings();
+	Subsystem->AddMappingContext(InputMapping, 0);
+
+	UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+
+	Input->BindAction(InputMove, ETriggerEvent::Triggered, this, &ATank::Move);
+	Input->BindAction(InputTurn, ETriggerEvent::Triggered, this, &ATank::Turn);
+}
+
+void ATank::Move(const FInputActionValue& Value)
+{
+	const FVector2D MoveValue = Value.Get<FVector2D>();
+	float MoveSpeed = MoveValue.X * Speed * UGameplayStatics::GetWorldDeltaSeconds(this);
+	FVector DeltaLocation = FVector(MoveSpeed, 0.f, 0.f);
+	
+	AddActorLocalOffset(DeltaLocation, true);
+}
+
+void ATank::Turn(const FInputActionValue& Value)
+{
+	const FVector2d TurnValue = Value.Get<FVector2D>();
+	const float TurnSpeed = TurnValue.X * TurnRate * UGameplayStatics::GetWorldDeltaSeconds(this);
+	FRotator DeltaRotation = FRotator::ZeroRotator;
+	DeltaRotation.Yaw = TurnSpeed;
+
+	AddActorLocalRotation(DeltaRotation, true);
 }
