@@ -17,8 +17,9 @@ class TOONTANKS_API ATank : public ABasePawn
 
 public:
 	ATank();
-
-	// Called to bind functionality to input
+	
+	virtual void Tick(float DeltaTime) override;
+	
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
@@ -28,7 +29,6 @@ public:
 	UInputAction* InputTurn;
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")

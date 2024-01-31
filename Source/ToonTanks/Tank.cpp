@@ -6,7 +6,6 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "InputMappingContext.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 
@@ -24,16 +23,14 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
-// Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	PlayerControllerRef = Cast<APlayerController>(GetController());
-	
+
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(
 		PlayerControllerRef->GetLocalPlayer()
 	);
@@ -46,12 +43,33 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Input->BindAction(InputTurn, ETriggerEvent::Triggered, this, &ATank::Turn);
 }
 
+void ATank::Tick(float const DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if (PlayerControllerRef)
+	{
+		FHitResult HitResult;
+		bool IsHit = PlayerControllerRef->GetHitResultUnderCursor(
+			ECC_Visibility,
+			false,
+			HitResult
+		);
+
+		if (IsHit)
+		{
+			RotateTurret(HitResult.ImpactPoint);
+		}
+	}
+}
+
+
 void ATank::Move(const FInputActionValue& Value)
 {
 	const FVector2D MoveValue = Value.Get<FVector2D>();
 	float MoveSpeed = MoveValue.X * Speed * UGameplayStatics::GetWorldDeltaSeconds(this);
 	FVector DeltaLocation = FVector(MoveSpeed, 0.f, 0.f);
-	
+
 	AddActorLocalOffset(DeltaLocation, true);
 }
 
