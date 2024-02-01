@@ -43,9 +43,7 @@ void AProjectile::OnHit(
 	const FHitResult& Hit
 )
 {
-	auto ProjectileOwner = GetOwner();
-	
-	if (!ProjectileOwner || !OtherActor || OtherActor == this || OtherActor == ProjectileOwner)
+	if (!OtherActor || OtherActor == this || OtherActor == GetOwner())
 	{
 		return;
 	}
@@ -53,7 +51,7 @@ void AProjectile::OnHit(
 	UGameplayStatics::ApplyDamage(
 		OtherActor,
 		Damage,
-		ProjectileOwner->GetInstigatorController(),
+		GetOwner()->GetInstigatorController(),
 		this,
 		UDamageType::StaticClass()
 	);
