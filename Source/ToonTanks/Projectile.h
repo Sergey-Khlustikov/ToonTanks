@@ -34,6 +34,9 @@ private:
 	float InitialSpeed = 2000.f;
 	float MaxSpeed = 3000.f;
 
+	UPROPERTY(EditAnywhere, Category="Combat")
+	float Damage = 25.f;
+
 	UFUNCTION()
 	void OnHit(
 		UPrimitiveComponent* HitComponent,
