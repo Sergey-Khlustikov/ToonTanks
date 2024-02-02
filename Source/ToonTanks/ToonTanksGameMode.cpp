@@ -39,11 +39,12 @@ void AToonTanksGameMode::HandleGameStart()
 		UGameplayStatics::GetPlayerController(this, 0)
 	);
 
+	StartGame();
+	
 	if (ToonTanksPlayerController)
 	{
 		ToonTanksPlayerController->SetPlayerEnabledState(false);
-
-		FTimerHandle PlayerEnableTimerHandle;
+		
 		FTimerDelegate PlayerEnableTimerDelegate = FTimerDelegate::CreateUObject(
 			ToonTanksPlayerController,
 			&AToonTanksPlayerController::SetPlayerEnabledState,
