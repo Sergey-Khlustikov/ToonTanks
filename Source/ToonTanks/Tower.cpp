@@ -43,3 +43,9 @@ bool ATower::TankIsInRange() const
 
 	return false;
 }
+
+void ATower::HandleDestruction()
+{
+	Super::HandleDestruction();
+	Destroy();
+}

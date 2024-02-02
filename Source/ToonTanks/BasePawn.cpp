@@ -61,3 +61,8 @@ void ABasePawn::Fire()
 		);
 	}
 }
+
+void ABasePawn::HandleDestruction()
+{
+	// Visual FX, sound, camera shake, etc.
+}

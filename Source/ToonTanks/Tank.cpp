@@ -29,10 +29,10 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerControllerRef = Cast<APlayerController>(GetController());
+	TankPlayerController = Cast<APlayerController>(GetController());
 
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(
-		PlayerControllerRef->GetLocalPlayer()
+		TankPlayerController->GetLocalPlayer()
 	);
 	Subsystem->ClearAllMappings();
 	Subsystem->AddMappingContext(InputMapping, 0);
@@ -48,10 +48,10 @@ void ATank::Tick(float const DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (PlayerControllerRef)
+	if (TankPlayerController)
 	{
 		FHitResult HitResult;
-		bool IsHit = PlayerControllerRef->GetHitResultUnderCursor(
+		bool IsHit = TankPlayerController->GetHitResultUnderCursor(
 			ECC_Visibility,
 			false,
 			HitResult
@@ -82,4 +82,13 @@ void ATank::Turn(const FInputActionValue& Value)
 	DeltaRotation.Yaw = TurnSpeed;
 
 	AddActorLocalRotation(DeltaRotation, true);
+}
+
+void ATank::HandleDestruction()
+{
+	Super::HandleDestruction();
+
+	UE_LOG(LogTemp, Warning, TEXT("Tank died"));
+	SetActorHiddenInGame(true);
+	SetActorTickEnabled(false);
 }

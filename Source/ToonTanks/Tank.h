@@ -31,6 +31,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
 	UInputAction* InputFire;
 
+	void HandleDestruction();
+
+	APlayerController* GetTankPlayerController() const { return TankPlayerController; }
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -54,5 +58,5 @@ private:
 
 	void Turn (const FInputActionValue& Value);
 
-	APlayerController* PlayerControllerRef;
+	APlayerController* TankPlayerController;
 };
