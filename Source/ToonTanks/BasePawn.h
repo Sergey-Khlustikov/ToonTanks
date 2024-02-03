@@ -39,4 +39,7 @@ protected:
 	void RotateTurret(FVector LookAtTarget);
 
 	void Fire();
+
+	UPROPERTY(EditAnywhere, Category="Combat")
+	UParticleSystem* DeathParticle;
 };
