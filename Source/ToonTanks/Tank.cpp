@@ -88,7 +88,7 @@ void ATank::HandleDestruction()
 {
 	Super::HandleDestruction();
 
-	UE_LOG(LogTemp, Warning, TEXT("Tank died"));
 	SetActorHiddenInGame(true);
 	SetActorTickEnabled(false);
+	bAlive = false;
 }
