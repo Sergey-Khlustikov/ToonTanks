@@ -19,7 +19,7 @@ public:
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta=(AllowPrivateAccess="true"))
-	class UCapsuleComponent* CapsuleComp;
+	class UBoxComponent* BoxComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta=(AllowPrivateAccess="true"))
 	UStaticMeshComponent* BaseMesh;
